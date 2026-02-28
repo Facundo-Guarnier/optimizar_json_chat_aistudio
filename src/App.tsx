@@ -117,143 +117,145 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-10">
-      <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center">
-        Optimizar JSON Chat AI Studio
-      </h1>
-      <p className="text-gray-400 mb-8 text-center text-sm md:text-base max-w-xl">
-        Elimina cadenas de pensamiento y campos innecesarios del historial de
-        chat exportado de AI Studio.
-      </p>
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-1 flex flex-col items-center px-4 py-10">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center">
+          Optimizar JSON Chat AI Studio
+        </h1>
+        <p className="text-gray-400 mb-8 text-center text-sm md:text-base max-w-xl">
+          Elimina cadenas de pensamiento y campos innecesarios del historial de
+          chat exportado de AI Studio.
+        </p>
 
-      {/* ---------- INPUT ZONE ---------- */}
-      {!result && (
-        <div className="w-full max-w-2xl space-y-4">
-          {/* Drop zone */}
-          <div
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
-              isDragging
-                ? "border-blue-400 bg-blue-400/10"
-                : "border-gray-600 hover:border-gray-400"
-            }`}
-          >
-            <svg
-              className="mx-auto mb-3 w-10 h-10 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.5}
-              viewBox="0 0 24 24"
+        {/* ---------- INPUT ZONE ---------- */}
+        {!result && (
+          <div className="w-full max-w-2xl space-y-4">
+            {/* Drop zone */}
+            <div
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
+                isDragging
+                  ? "border-blue-400 bg-blue-400/10"
+                  : "border-gray-600 hover:border-gray-400"
+              }`}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+              <svg
+                className="mx-auto mb-3 w-10 h-10 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                />
+              </svg>
+              <p className="text-gray-300 font-medium">
+                Arrastrá un archivo JSON aquí o hacé click para seleccionar
+              </p>
+              <p className="text-xs text-gray-500 mt-1">Solo archivos .json</p>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                className="hidden"
+                onChange={handleFileChange}
               />
-            </svg>
-            <p className="text-gray-300 font-medium">
-              Arrastrá un archivo JSON aquí o hacé click para seleccionar
-            </p>
-            <p className="text-xs text-gray-500 mt-1">Solo archivos .json</p>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".json"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </div>
-
-          {/* Divider */}
-          <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-gray-700" />
-            <span className="text-xs text-gray-500 uppercase tracking-wider">
-              o pegá el JSON
-            </span>
-            <div className="flex-1 h-px bg-gray-700" />
-          </div>
-
-          {/* Textarea */}
-          <textarea
-            value={rawText}
-            onChange={(e) => setRawText(e.target.value)}
-            placeholder='{"chunkedPrompt": {"chunks": [...]}}'
-            rows={8}
-            className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm font-mono text-gray-200 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
-          />
-
-          {/* Process button */}
-          <button
-            onClick={handleProcess}
-            disabled={!rawText.trim()}
-            className="w-full py-3 rounded-lg font-semibold transition-colors bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            Optimizar JSON
-          </button>
-
-          {/* Error */}
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg p-3 text-sm">
-              {error}
             </div>
-          )}
-        </div>
-      )}
 
-      {/* ---------- RESULT ZONE ---------- */}
-      {result && (
-        <div className="w-full max-w-2xl space-y-4">
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <Stat label="Chunks originales" value={result.stats.original} />
-            <Stat
-              label="Eliminados"
-              value={result.stats.removed}
-              color="text-red-400"
+            {/* Divider */}
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px bg-gray-700" />
+              <span className="text-xs text-gray-500 uppercase tracking-wider">
+                o pegá el JSON
+              </span>
+              <div className="flex-1 h-px bg-gray-700" />
+            </div>
+
+            {/* Textarea */}
+            <textarea
+              value={rawText}
+              onChange={(e) => setRawText(e.target.value)}
+              placeholder='{"chunkedPrompt": {"chunks": [...]}}'
+              rows={8}
+              className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm font-mono text-gray-200 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
             />
-            <Stat
-              label="Chunks finales"
-              value={result.stats.cleaned}
-              color="text-green-400"
-            />
-          </div>
 
-          {/* Preview */}
-          <div className="relative">
-            <pre className="bg-gray-900 border border-gray-700 rounded-lg p-4 text-xs font-mono text-gray-300 max-h-80 overflow-auto">
-              {result.json.slice(0, 5000)}
-              {result.json.length > 5000 &&
-                "\n\n... (truncado en la vista previa)"}
-            </pre>
-          </div>
-
-          {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Process button */}
             <button
-              onClick={handleDownload}
-              className="flex-1 py-3 rounded-lg font-semibold bg-green-600 hover:bg-green-500 transition-colors"
+              onClick={handleProcess}
+              disabled={!rawText.trim()}
+              className="w-full py-3 rounded-lg font-semibold transition-colors bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              Descargar JSON
+              Optimizar JSON
             </button>
+
+            {/* Error */}
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg p-3 text-sm">
+                {error}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ---------- RESULT ZONE ---------- */}
+        {result && (
+          <div className="w-full max-w-2xl space-y-4">
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-3 text-center">
+              <Stat label="Chunks originales" value={result.stats.original} />
+              <Stat
+                label="Eliminados"
+                value={result.stats.removed}
+                color="text-red-400"
+              />
+              <Stat
+                label="Chunks finales"
+                value={result.stats.cleaned}
+                color="text-green-400"
+              />
+            </div>
+
+            {/* Preview */}
+            <div className="relative">
+              <pre className="bg-gray-900 border border-gray-700 rounded-lg p-4 text-xs font-mono text-gray-300 max-h-80 overflow-auto">
+                {result.json.slice(0, 5000)}
+                {result.json.length > 5000 &&
+                  "\n\n... (truncado en la vista previa)"}
+              </pre>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={handleDownload}
+                className="flex-1 py-3 rounded-lg font-semibold bg-green-600 hover:bg-green-500 transition-colors"
+              >
+                Descargar JSON
+              </button>
+              <button
+                onClick={handleCopy}
+                className="flex-1 py-3 rounded-lg font-semibold bg-gray-700 hover:bg-gray-600 transition-colors"
+              >
+                {copied ? "¡Copiado!" : "Copiar al portapapeles"}
+              </button>
+            </div>
+
             <button
-              onClick={handleCopy}
-              className="flex-1 py-3 rounded-lg font-semibold bg-gray-700 hover:bg-gray-600 transition-colors"
+              onClick={handleReset}
+              className="w-full py-2 rounded-lg text-sm text-gray-400 hover:text-gray-200 transition-colors border border-gray-700 hover:border-gray-500"
             >
-              {copied ? "¡Copiado!" : "Copiar al portapapeles"}
+              Procesar otro archivo
             </button>
           </div>
-
-          <button
-            onClick={handleReset}
-            className="w-full py-2 rounded-lg text-sm text-gray-400 hover:text-gray-200 transition-colors border border-gray-700 hover:border-gray-500"
-          >
-            Procesar otro archivo
-          </button>
-        </div>
-      )}
+        )}
+      </main>
 
       <BrandFooter />
     </div>
