@@ -257,7 +257,7 @@ export default function App() {
         )}
       </main>
 
-      <BrandFooter />
+      <BrandFooter compact />
     </div>
   );
 }
