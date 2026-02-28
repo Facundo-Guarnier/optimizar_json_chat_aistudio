@@ -1,9 +1,33 @@
+export interface Chunk {
+  role?: string;
+  text?: string;
+  isThought?: boolean;
+  [key: string]: unknown;
+}
+
+export interface ChatData {
+  chunkedPrompt?: {
+    chunks: Chunk[];
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
+
+export interface CleanResult {
+  result: ChatData;
+  stats: {
+    original: number;
+    cleaned: number;
+    removed: number;
+  };
+}
+
 /**
  * Limpia un JSON de chat de AI Studio:
  * - Elimina chunks con isThought (cadenas de pensamiento)
  * - Conserva solo role y text de cada chunk
  */
-export function cleanChatJson(data) {
+export function cleanChatJson(data: ChatData): CleanResult {
   if (!data?.chunkedPrompt?.chunks) {
     throw new Error(
       "El formato del JSON no es el esperado (no se encontró chunkedPrompt.chunks).",
@@ -18,8 +42,8 @@ export function cleanChatJson(data) {
       text: chunk.text,
     }));
 
-  const result = structuredClone(data);
-  result.chunkedPrompt.chunks = cleanedChunks;
+  const result: ChatData = structuredClone(data);
+  result.chunkedPrompt!.chunks = cleanedChunks;
 
   return {
     result,

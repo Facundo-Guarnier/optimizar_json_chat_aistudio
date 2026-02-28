@@ -1,17 +1,32 @@
-import { useState, useCallback, useRef } from "react";
-import { cleanChatJson } from "./cleanChat";
+import {
+  useState,
+  useCallback,
+  useRef,
+  type DragEvent,
+  type ChangeEvent,
+} from "react";
+import { cleanChatJson, type ChatData } from "./cleanChat";
 import BrandFooter from "./components/BrandFooter";
+
+interface ResultState {
+  json: string;
+  stats: {
+    original: number;
+    cleaned: number;
+    removed: number;
+  };
+}
 
 export default function App() {
   const [rawText, setRawText] = useState("");
-  const [result, setResult] = useState(null); // { json, stats }
-  const [error, setError] = useState(null);
+  const [result, setResult] = useState<ResultState | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [fileName, setFileName] = useState(null);
-  const fileInputRef = useRef(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const processJson = useCallback((text, name) => {
+  const processJson = useCallback((text: string, name: string | null) => {
     setError(null);
     setResult(null);
     setCopied(false);
@@ -22,23 +37,23 @@ export default function App() {
     }
 
     try {
-      const parsed = JSON.parse(text);
+      const parsed: ChatData = JSON.parse(text);
       const { result: cleaned, stats } = cleanChatJson(parsed);
       const outputText = JSON.stringify(cleaned, null, 2);
       setResult({ json: outputText, stats });
       if (name) setFileName(name);
     } catch (e) {
-      setError(e.message);
+      setError(e instanceof Error ? e.message : String(e));
     }
   }, []);
 
   // --- File reading helper ---
   const readFile = useCallback(
-    (file) => {
+    (file: File | undefined) => {
       if (!file) return;
       const reader = new FileReader();
       reader.onload = (e) => {
-        const text = e.target.result;
+        const text = e.target?.result as string;
         setRawText(text);
         processJson(text, file.name);
       };
@@ -48,12 +63,12 @@ export default function App() {
   );
 
   // --- Drag & Drop ---
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
   };
   const handleDragLeave = () => setIsDragging(false);
-  const handleDrop = (e) => {
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
@@ -61,7 +76,7 @@ export default function App() {
   };
 
   // --- File input ---
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     readFile(e.target.files?.[0]);
   };
 
@@ -245,7 +260,13 @@ export default function App() {
   );
 }
 
-function Stat({ label, value, color = "text-white" }) {
+interface StatProps {
+  label: string;
+  value: number;
+  color?: string;
+}
+
+function Stat({ label, value, color = "text-white" }: StatProps) {
   return (
     <div className="bg-gray-900 border border-gray-700 rounded-lg p-3">
       <p className={`text-2xl font-bold ${color}`}>{value}</p>
