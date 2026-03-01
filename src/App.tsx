@@ -143,7 +143,7 @@ export default function App() {
               onClick={() => fileInputRef.current?.click()}
               className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
                 isDragging
-                  ? "border-blue-400 bg-blue-400/10"
+                  ? "border-primary bg-primary/10"
                   : isDark
                     ? "border-gray-600 hover:border-gray-400"
                     : "border-gray-300 hover:border-gray-500"
@@ -202,7 +202,7 @@ export default function App() {
               onChange={(e) => setRawText(e.target.value)}
               placeholder='{"chunkedPrompt": {"chunks": [...]}}'
               rows={8}
-              className={`w-full rounded-lg p-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y border ${
+              className={`w-full rounded-lg p-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary resize-y border ${
                 isDark
                   ? "bg-gray-900 border-gray-700 text-gray-200 placeholder-gray-600"
                   : "bg-white border-gray-300 text-gray-800 placeholder-gray-400"
@@ -213,7 +213,7 @@ export default function App() {
             <button
               onClick={handleProcess}
               disabled={!rawText.trim()}
-              className="w-full py-3 rounded-lg font-semibold transition-colors bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full py-3 rounded-lg font-semibold transition-colors bg-primary hover:opacity-90 text-white disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Optimizar JSON
             </button>

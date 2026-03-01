@@ -50,3 +50,15 @@ html:not(.dark) {
   --color-on-primary-container: #1e40af;
   --color-outline: #d1d5db;
 }
+
+/* Selection color matches accent */
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Textarea caret color */
+textarea,
+input {
+  caret-color: var(--color-primary);
+}
