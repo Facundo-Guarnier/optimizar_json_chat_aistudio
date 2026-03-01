@@ -42,30 +42,36 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     root.style.setProperty("--seed-color", seedColor);
     root.style.setProperty("--color-primary", seedColor);
 
-    // Generate a lighter variant for primary-container (mix with background)
+    // Parse seed color RGB
     const r = parseInt(seedColor.slice(1, 3), 16);
     const g = parseInt(seedColor.slice(3, 5), 16);
     const b = parseInt(seedColor.slice(5, 7), 16);
 
+    // Mix two colors by ratio (0=colorA, 1=colorB)
+    const mix = (a: number, bVal: number, ratio: number) =>
+      Math.round(a + (bVal - a) * ratio);
+
     if (isDark) {
-      // Darker tinted container
+      // Container: mix seed with black (20% seed, 80% black)
       root.style.setProperty(
         "--color-primary-container",
-        `rgb(${Math.round(r * 0.3)}, ${Math.round(g * 0.3)}, ${Math.round(b * 0.3)})`,
+        `rgb(${mix(0, r, 0.2)}, ${mix(0, g, 0.2)}, ${mix(0, b, 0.2)})`,
       );
+      // On-container: lighter version of seed (mix 60% toward white)
       root.style.setProperty(
         "--color-on-primary-container",
-        `rgb(${Math.min(255, r + 100)}, ${Math.min(255, g + 100)}, ${Math.min(255, b + 100)})`,
+        `rgb(${mix(r, 255, 0.6)}, ${mix(g, 255, 0.6)}, ${mix(b, 255, 0.6)})`,
       );
     } else {
-      // Lighter tinted container
+      // Container: mix seed with white (85% white, 15% seed)
       root.style.setProperty(
         "--color-primary-container",
-        `rgb(${Math.min(255, r + 160)}, ${Math.min(255, g + 160)}, ${Math.min(255, b + 160)})`,
+        `rgb(${mix(255, r, 0.15)}, ${mix(255, g, 0.15)}, ${mix(255, b, 0.15)})`,
       );
+      // On-container: darker version of seed (mix 50% toward black)
       root.style.setProperty(
         "--color-on-primary-container",
-        `rgb(${Math.round(r * 0.5)}, ${Math.round(g * 0.5)}, ${Math.round(b * 0.5)})`,
+        `rgb(${mix(r, 0, 0.5)}, ${mix(g, 0, 0.5)}, ${mix(b, 0, 0.5)})`,
       );
     }
 

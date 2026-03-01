@@ -270,7 +270,7 @@ export default function App() {
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={handleDownload}
-                className="flex-1 py-3 rounded-lg font-semibold bg-green-600 hover:bg-green-500 text-white transition-colors"
+                className="flex-1 py-3 rounded-lg font-semibold bg-primary hover:opacity-90 text-white transition-colors"
               >
                 Descargar JSON
               </button>

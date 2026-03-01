@@ -3,9 +3,14 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import pkg from "./package.json";
+import { componentTagger } from "lovable-tagger";
 
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    react(),
+    tailwindcss(),
+    mode === "development" && componentTagger(),
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
@@ -22,4 +27,4 @@ export default defineConfig({
       (pkg as Record<string, unknown>).gitURL ?? "",
     ),
   },
-});
+}));
