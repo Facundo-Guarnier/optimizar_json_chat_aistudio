@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Optimizar JSON Chat AI Studio
+# ⚡ aistudio-chat-cleaner
 
 **Herramienta web para limpiar y optimizar el historial de chat exportado desde Google AI Studio**
 
