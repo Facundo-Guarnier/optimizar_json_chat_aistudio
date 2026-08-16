@@ -2,3 +2,9 @@ node_modules/
 dist/
 build/
 .vite/
+
+# Variables de entorno — nunca commitear (solo .env.example)
+.env
+.env.local
+.env.*.local
+.env.production
