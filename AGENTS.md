@@ -19,7 +19,7 @@ Cleans and optimizes chat history exported from Google AI Studio.
 
 ## Context
 
-- Lives in `D:/Repositorios_GitHub/personal/aistudio-chat-cleaner` — a container of 19 independent repos.
+- Lives in `D:/Repositorios_GitHub/personal/aistudio-chat-cleaner` — a container of 22 independent repos.
   The `AGENTS.md` at that root explains the whole setup.
 - Owner's generic rules: `D:/Repositorios_GitHub/guarnold-hub/.claude/memory/` → start at `MEMORY.md`.
   Path ⊥ exists (other machine / external dev) → skip it, this file stands alone.
